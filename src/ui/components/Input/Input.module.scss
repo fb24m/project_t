@@ -1,0 +1,11 @@
+.input {
+	border: #ccc 1px solid;
+	border-radius: 8px;
+	padding: 7px 11px;
+	border-bottom-width: 2px;
+	transition: border .2s ease;
+
+	&:focus {
+		border-bottom-color: #000;
+	}
+}
