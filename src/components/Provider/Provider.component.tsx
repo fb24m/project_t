@@ -1,10 +1,15 @@
 import { type ReactNode, Suspense } from 'react'
 import { Container } from '../Container/Container.component'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 export const Provider = ({ children }: { children: ReactNode }) => {
 	return (
-		<Suspense fallback={<Container>Loading..</Container>}>
-			{children}
-		</Suspense>
+		<QueryClientProvider client={queryClient}>
+			<Suspense fallback={<Container>Loading..</Container>}>
+				{children}
+			</Suspense>
+		</QueryClientProvider>
 	)
 }

@@ -10,9 +10,12 @@ const submitLogin = async (e: FormEvent<HTMLFormElement>, correct: () => void, i
 	const formData = new FormData(e.target as HTMLFormElement)
 	const code = +formData.get('code')!
 
-	console.log(code)
+	const response = await fetch(`http://5.35.91.115/auth/email-login/${localStorage.getItem('saved_user_id')}?code=${code}`)
+	const json = await response.json()
 
-	if (code === 111111) {
+	if (json.access_token) {
+		localStorage.setItem('json.access_token', json.access_token)
+		localStorage.setItem('json.refresh_token', json.refresh_token)
 		correct()
 	}
 
@@ -29,7 +32,7 @@ const LoginSubmit = () => {
 		<p className={styles.suggestion}>
 			На почту <strong>{localStorage.getItem('saved_email') ? localStorage.getItem('saved_email') : 'Почта не сохранена'}</strong> отправлен шестизначный код подтверждения. <Button appearance="link" className={styles.forgot}>Указали неправильную почту?</Button>
 		</p>
-		<form onSubmit={(e) => submitLogin(e, () => { navigate('/login/registration') }, () => { setOpened(true) })} className={styles.form}>
+		<form onSubmit={(e) => submitLogin(e, () => { navigate('/chats') }, () => { setOpened(true) })} className={styles.form}>
 			<Input className={styles.input} name="code" type="text" placeholder="Введите код" required />
 			<Button type="submit">Подтвердить</Button>
 		</form>

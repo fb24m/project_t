@@ -8,6 +8,7 @@ const LoginLayout = lazy(() => import('./pages/Login/Layout/Layout.component'))
 const LoginSubmit = lazy(() => import('./pages/Login/Submit/Submit.component'))
 const LoginRegistration = lazy(() => import('./pages/Login/Registration/Registration.component'))
 const Home = lazy(() => import('./pages/Home/Home.component'))
+const Registration = lazy(() => import('./pages/Registration/Registration.component'))
 const Chats = lazy(() => import('./pages/Chats/Chats.component'))
 
 function App() {
@@ -17,10 +18,11 @@ function App() {
 				<Route Component={AppLayout}>
 					<Route index Component={Home} />
 					<Route path="/chats" Component={Chats} />
-					<Route Component={LoginLayout} path="/login">
-						<Route index Component={LoginHome} />
+					<Route Component={LoginLayout}>
+						<Route path='/login' Component={LoginHome} />
 						<Route path="/login/submit" Component={LoginSubmit} />
 						<Route path="/login/registration" Component={LoginRegistration} />
+						<Route path="/registration" Component={Registration} />
 					</Route>
 				</Route>
 			</Routes>
