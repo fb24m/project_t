@@ -1,80 +1,76 @@
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '../../ui/components/Button/Button.component'
 import { Input } from '../../ui/components/Input/Input.component'
 import styles from './Registration.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { Popup } from '../../ui/components/Popup/Popup.component'
+import { useMutation } from '@tanstack/react-query'
 
-const submitLogin = async (e: FormEvent<HTMLFormElement>, then: () => void) => {
-	e.preventDefault()
-	const formData = new FormData(e.target as HTMLFormElement)
-	const rawData = {
-		email: formData.get('email')! as string,
-		firstName: formData.get('name')! as string,
-		lastName: formData.get('surname')! as string,
-		username: formData.get('username')! as string,
-		password: formData.get('password')! as string
-	}
-
-	const response = await fetch('http://5.35.91.115/auth/registration', {
+export const emailRegSend = async (email: string) => {
+	const response = await fetch(`http://5.35.91.115/auth/email-reg-send/${email}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			"username": rawData.username,
-			"name": rawData.firstName,
-			"surname": rawData.lastName,
-			"password": rawData.password,
-			"email": rawData.email
-		})
+		}
 	})
-
-	console.log(JSON.stringify({
-		username: rawData.username,
-		name: rawData.firstName,
-		surname: rawData.lastName,
-		password: rawData.password,
-		email: rawData.email
-	}))
 
 	const json = await response.json()
 
 	if (!response.ok) {
-		console.log(json)
+		return json.detail[0].msg
 	}
 
-	console.log(json)
-
+	localStorage.setItem('saved_email', email)
 	localStorage.setItem('saved_user_id', json.id)
+}
 
-	then()
+const submitRegistration = async (setErrorOpened: (state: boolean) => void, navigate: (url: string) => void) => {
+	const form = document.querySelector('#register-form') as HTMLFormElement
+	console.log('submit')
+
+	const formData = new FormData(form)
+
+	const rawData = {
+		email: formData.get('email')! as string
+	}
+
+	const send = await emailRegSend(rawData.email)
+
+	if (!send) {
+		navigate('/login/submit')
+	}
+	else {
+		setErrorOpened(true)
+		return send
+	}
 }
 
 const Registration = () => {
+	const [errorOpened, setErrorOpened] = useState(false)
 	const navigate = useNavigate()
-	const [opened, setOpened] = useState(false)
+
+	const { isPending, data, mutate } = useMutation({
+		mutationKey: ['registration'],
+		mutationFn: () => submitRegistration(setErrorOpened, navigate)
+	})
+
 
 	return <>
 		<p className={styles.suggestion}>
 			Для регистрации укажите почту, ваше имя и фамилию, а также придумайте имя пользователя
 		</p>
-		<form onSubmit={(e) => submitLogin(e, () => { navigate('/submit_email') })} className={styles.form}>
+		<form id="register-form" onSubmit={(e) => { e.preventDefault(); mutate() }} className={styles.form}>
 			<Input className={styles.input} name="email" type="email" placeholder="Почта" required />
-			<Input className={styles.input} name="name" type="text" placeholder="Имя" required />
-			<Input className={styles.input} name="surname" type="text" placeholder="Фамилия (не обязательно)" />
-			<Input className={styles.input} name="username" type="text" placeholder="Имя пользователя" required />
-			<Input className={styles.input} name="password" type="password" placeholder="Пароль" required />
-			<Button type="submit">Подтвердить</Button>
+			<Button type="submit">{isPending ? 'loading..' : 'Подтвердить'}</Button>
 		</form >
 		<div className={styles.buttons}>
 			<Button appearance="link" className={styles.forgot}>Отправить еще раз</Button>
 		</div>
-		<Popup opened={opened}>
-			Вы ввели неверный код. У вас осталось 2 попытки.
+		<Popup opened={data && errorOpened}>
+			{data}
 
 			<div className={styles.buttons}>
-				<Button appearance="primary" onClick={() => { setOpened(false) }} className={styles.forgot}>Закрыть</Button>
+				<Button appearance="primary" onClick={() => { setErrorOpened(false) }} className={styles.forgot}>Закрыть</Button>
 			</div>
 		</Popup>
 	</>

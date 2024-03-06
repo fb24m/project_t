@@ -1,10 +1,7 @@
-import type { HTMLAttributes, HTMLInputTypeAttribute } from 'react'
+import type { InputHTMLAttributes, RefCallback } from 'react'
 
-export interface InputProps extends HTMLAttributes<HTMLInputElement> {
-	type?: HTMLInputTypeAttribute
-	placeholder?: string
-	required?: boolean
-	name: string
-	min?: number
-	max?: number
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+	ref: RefCallback<HTMLInputElement> | null
+	invalid?: boolean
+	icon?: string
 }

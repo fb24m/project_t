@@ -8,4 +8,29 @@
 	&:focus {
 		border-bottom-color: #000;
 	}
+
+	&.invalid {
+		border-color: #f00;
+		color: #f00;
+	}
+
+	&.withIcon {
+		padding-left: 32px;
+	}
+}
+
+.icon {
+	transition: color .2s ease;
+	display: inline-block;
+	margin-right: -28px;
+	transform: translateY(4px);
+	color: #999;
+	font-size: 18px;
+}
+
+.wrapper {
+
+	&:has(input:focus) .icon {
+		color: #555;
+	}
 }

@@ -6,8 +6,26 @@
 .primary,
 .secondary,
 .transparent {
+	transition: background-color .2s ease;
 	padding: 8px 12px;
 	border-radius: 8px;
+	min-width: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+
+	&.icon {
+		padding-block: 4.5px;
+	}
+
+	&.start {
+		padding-left: 8px;
+	}
+
+	&.end {
+		padding-right: 8px;
+	}
 }
 
 .primary {
@@ -17,11 +35,38 @@
 	&:hover {
 		background-color: lighten(#000, 20%);
 	}
+
+	&:active {
+		background-color: lighten(#000, 40%);
+	}
 }
 
 .secondary {
 	padding: 7px 11px;
-	border: #000 1px solid;
+	border: #ccc 1px solid;
+	border-bottom-width: 2px;
+
+	&.icon {
+		padding-block: 3px;
+	}
+
+	&:hover {
+		background-color: rgba(#ccc, 15%);
+	}
+
+	&:active {
+		background-color: rgba(#ccc, 30%);
+	}
+}
+
+.transparent {
+	&:hover {
+		background-color: rgba(#ccc, 15%);
+	}
+
+	&:active {
+		background-color: rgba(#ccc, 30%);
+	}
 }
 
 .link {

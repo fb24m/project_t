@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
-import { Container } from '../../../components/Container/Container.component'
+import { Container } from '../../components/Container/Container.component'
 import styles from './Layout.module.scss'
-import { Title1 } from '../../../ui/components/Title1/Title1.component'
+import { Title1 } from '../../ui/components/Title1/Title1.component'
 
 const LoginLayout = () => {
 	return <Container size="small" className={styles.container}>

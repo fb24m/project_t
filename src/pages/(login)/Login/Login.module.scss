@@ -1,0 +1,22 @@
+.form {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin-bottom: 8px;
+	width: 100%;
+}
+
+.input {
+	flex-grow: 1;
+}
+
+.description {
+	margin-bottom: 16px;
+}
+
+.hint {
+	font-size: 14px;
+	display: block;
+	text-align: center;
+	color: #f00;
+}
