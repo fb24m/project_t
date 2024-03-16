@@ -1,5 +1,5 @@
 // import { useQuery } from "@tanstack/react-query"
-import { Container } from "../../components/Container/Container.component"
+import { Container } from "../../shared/ui/components/Container/Container.component"
 
 // const request = async <T,>(input: RequestInfo | URL, init?: RequestInit | undefined): Promise<T> => {
 // 	const response = await fetch(input, init)

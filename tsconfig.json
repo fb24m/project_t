@@ -23,7 +23,10 @@
       {
         "name": "typescript-plugin-css-modules"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

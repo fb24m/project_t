@@ -1,5 +1,5 @@
 import { type ReactNode, Suspense } from 'react'
-import { Container } from '../Container/Container.component'
+import { Container } from '@/shared/ui/components/Container/Container.component'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()

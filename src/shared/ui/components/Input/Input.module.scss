@@ -4,6 +4,7 @@
 	padding: 7px 11px;
 	border-bottom-width: 2px;
 	transition: border .2s ease;
+	flex-grow: 1;
 
 	&:focus {
 		border-bottom-color: #000;
@@ -29,6 +30,7 @@
 }
 
 .wrapper {
+	display: flex;
 
 	&:has(input:focus) .icon {
 		color: #555;
