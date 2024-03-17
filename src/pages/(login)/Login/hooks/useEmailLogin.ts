@@ -10,22 +10,28 @@ export const useEmailLogin = () => {
 		mutationFn: async (email: string) => {
 			Cookies.set('saved_email', email)
 
-			const response = await fetch(`http://5.35.91.115/auth/login/${email}`, {
-				method: 'POST'
-			})
+			const response = await fetch(`http://5.35.91.115/auth/login/${email}`, { method: 'POST' })
 
 			if (response.status === 404) {
-				console.log('no such user')
-				Cookies.set('submit_function', 'registration')
+				const response = await fetch(`http://5.35.91.115/auth/email-reg-send/${email}`, { method: 'POST' })
 
-				navigate('/registration')
+				if (response.ok) {
+					Cookies.set('submit_function', 'reg')
 
-				return
+					navigate('/submit')
+				}
+				else {
+					console.log(response.statusText)
+				}
+			} else {
+				Cookies.set('submit_function', 'login')
+
+				const json = await response.json()
+
+				Cookies.set('submit_user', json.id.toString())
+
+				navigate('/submit')
 			}
-
-			const json = await response.json()
-
-			console.log(json)
 		}
 	})
 }
